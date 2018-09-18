@@ -4,6 +4,7 @@ A sleek custom polybar module for gmail
 ## Installation
 
 > Install/Update dependencies with:
+>
 > `sudo pip3 install --upgrade oauth2client google-api-python-client`
 
 Then simply:
