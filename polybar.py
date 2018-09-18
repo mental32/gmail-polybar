@@ -14,10 +14,11 @@ from httplib2 import ServerNotFoundError
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-p', '--prefix', default='GMAIL => ')
+parser.add_argument('-d', '--delay', default=10)
 args = parser.parse_args()
 
+STD_DELAY = int(args.delay)
 DIR = os.path.dirname(os.path.realpath(__file__))
-STD_DELAY = 10
 _CREDENTAILS_PATH = os.path.join(DIR, 'credentials.json')
 
 def main():
