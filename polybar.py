@@ -2,7 +2,7 @@
 import os
 import sys
 
-assert sys.version_info[:2] >= 3.6, 'fatal: requires Python 3.6+'
+assert sys.version_info[:2] >= (3, 6), 'fatal: requires Python 3.6+'
 
 import argparse
 import time
