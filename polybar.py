@@ -13,7 +13,7 @@ from oauth2client import client, file
 from httplib2 import ServerNotFoundError
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-p', '--prefix', default='GMAIL => ')
+parser.add_argument('-p', '--prefix', default='GMAIL({count})')
 parser.add_argument('-d', '--delay', default=10)
 args = parser.parse_args()
 
