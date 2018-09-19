@@ -29,20 +29,18 @@ def main():
     delay = STD_DELAY
 
     while True:
-        print(f'{args.prefix}N', flush=True)
+        print(args.prefix.format(count="N"), flush=True)
+        try:
+            while pathlib.Path(_CREDENTAILS_PATH).is_file():
+                print(args.prefix.format(count=_LABEL.execute()["messagesUnread"]), flush=True)
+                time.sleep(delay)
 
-        while pathlib.Path(_CREDENTAILS_PATH).is_file():
-            try:
-                print(f'{args.prefix}{_LABEL.execute()["messagesUnread"]}', flush=True)
+        except (errors.HttpError, ServerNotFoundError, OSError) as error:
+            print(args.prefix.format(count="N"), flush=True)
 
-            except (errors.HttpError, ServerNotFoundError, OSError) as error:
-                print(f'{args.prefix}N', flush=True)
-
-            except client.AccessTokenRefreshError:
-                print(f'{args.prefix}error(revoked/expired credentials)', flush=True)
-
-            time.sleep(delay)
-
+        except client.AccessTokenRefreshError:
+            print(args.prefix.format(count='revoked/expired credentials'), flush=True)
+            break
 
 if __name__ == '__main__':
     main()
