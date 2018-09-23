@@ -27,7 +27,7 @@ def wait_for_connection():
 
     while True:
         try:
-            sock.connect(('8.8.8.8', 80))
+            sock.connect(('8.8.8.8', 53))
             return sock.close()
         except OSError:
             print('Failed to connect', flush=True)
@@ -51,7 +51,8 @@ def main():
                 time.sleep(delay)
 
         except (errors.HttpError, ServerNotFoundError, OSError) as error:
-            wait_for_connection()
+            pass
+            # wait_for_connection()
 
         except client.AccessTokenRefreshError:
             print(args.prefix.format(count='revoked/expired credentials'), flush=True)
