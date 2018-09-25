@@ -10,6 +10,7 @@ import pathlib
 import socket
 
 from apiclient import discovery, errors
+from apiclient.errors import HttpError
 from oauth2client import client, file
 from httplib2 import ServerNotFoundError
 
@@ -30,33 +31,31 @@ def wait_for_connection():
             sock.connect(('8.8.8.8', 53))
             return sock.close()
         except OSError:
-            print('Failed to connect', flush=True)
+            print('Gmail::Failed to connect.', flush=True)
             time.sleep(1)
             continue
 
-def main():
+def main(delay=None):
+    delay = delay or STD_DELAY
+
     wait_for_connection()
 
     _CREDENTIALS_STORAGE = file.Storage(_CREDENTAILS_PATH)
     _GMAIL = discovery.build('gmail', 'v1', credentials=_CREDENTIALS_STORAGE.get())
     _LABEL = _GMAIL.users().labels().get(userId='me', id='INBOX')
 
-    delay = STD_DELAY
-
     while True:
-        print(args.prefix.format(count="N"), flush=True)
         try:
             while pathlib.Path(_CREDENTAILS_PATH).is_file():
                 print(args.prefix.format(count=_LABEL.execute()["messagesUnread"]), flush=True)
                 time.sleep(delay)
 
-        except (errors.HttpError, ServerNotFoundError, OSError) as error:
-            pass
-            # wait_for_connection()
-
         except client.AccessTokenRefreshError:
             print(args.prefix.format(count='revoked/expired credentials'), flush=True)
             break
+
+        except (HttpError, ServerNotFoundError, OSError) as error:
+            pass
 
 if __name__ == '__main__':
     main()
