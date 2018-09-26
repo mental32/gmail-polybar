@@ -2,7 +2,7 @@
 import os
 import sys
 
-assert sys.version_info[:2] >= (3, 6), 'fatal: requires Python 3.6+'
+assert sys.version_info[:2] >= (3, 5), 'fatal: requires Python 3.5+'
 
 import argparse
 import time
@@ -51,10 +51,10 @@ def main(delay=None):
                 time.sleep(delay)
 
         except client.AccessTokenRefreshError:
-            print(args.prefix.format(count='revoked/expired credentials'), flush=True)
+            print('Gmail::revoked/expired credentials', flush=True)
             break
 
-        except (HttpError, ServerNotFoundError, OSError) as error:
+        except (HttpError, ServerNotFoundError, OSError):
             pass
 
 if __name__ == '__main__':
